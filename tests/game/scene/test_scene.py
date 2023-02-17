@@ -1,6 +1,6 @@
-from assets.objects.vacuum import Vacuum
+from angry_oleg.assets import Vacuum
 from game.objects import ObjectType
-from game.scene import Scene
+from game.scenes import Scene
 
 
 def test_add_object():

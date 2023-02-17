@@ -1,5 +1,5 @@
 from abc import ABC
 
 
-class Message(ABC):
+class Event(ABC):
     pass

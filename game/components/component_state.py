@@ -5,6 +5,6 @@ if TYPE_CHECKING:
     from .component_type import ComponentType
 
 
-@dataclass
+@dataclass(frozen=True)
 class ComponentState:
     component_type: 'ComponentType'

@@ -78,44 +78,44 @@ class Map:
         if size_x <= 0 or size_y <= 0:
             raise InvalidMapSizeError('World size must be greater than zero')
 
-        self.__size_x = size_x
-        self.__size_y = size_y
+        self._size_x = size_x
+        self._size_y = size_y
 
-        self.__map: Dict['Position', List] = defaultdict(list)
-        self.__reversed_map: Dict[UUID, 'Position'] = dict()
+        self._map: Dict['Position', List] = defaultdict(list)
+        self._reversed_map: Dict[UUID, 'Position'] = dict()
 
     @property
     def size_x(self) -> int:
-        return self.__size_x
+        return self._size_x
 
     @property
     def size_y(self) -> int:
-        return self.__size_y
+        return self._size_y
 
     def __getitem__(self, position: 'Position') -> Iterable[UUID]:
-        '''
+        """
         Get all object in the specified position.
-        '''
-        return self.__map.get(position, [])
+        """
+        return self._map.get(position, [])
 
     def find_object(self, object_id: UUID) -> Optional['Position']:
-        '''
+        """
         Find object position on the map by ID.
-        '''
-        return self.__reversed_map.get(object_id)
+        """
+        return self._reversed_map.get(object_id)
 
     def calc_distance(self, object_from_id: UUID, object_to_id: UUID) -> float:
-        '''
-        Calculate distance between two objects with the specified IDs.
-        '''
+        """
+        Calculate distance between two players with the specified IDs.
+        """
         position_from = self.find_object(object_from_id)
         position_to = self.find_object(object_to_id)
         return position_from.calc_distance(position_to)
 
     def get_direction(self, object_from_id: UUID, object_to_id: UUID) -> Direction:
-        '''
+        """
         Get a direction from one object to another.
-        '''
+        """
         position_from = self.find_object(object_from_id)
         position_to = self.find_object(object_to_id)
         delta_x = position_to.x - position_from.x
@@ -123,26 +123,26 @@ class Map:
         return Direction.from_offset(delta_x, delta_y)
 
     def is_valid_position(self, position: 'Position') -> bool:
-        '''
+        """
         Check if the specified position is valid.
-        '''
-        return self.__size_x >= position.x > 0 and self.__size_y >= position.y > 0
+        """
+        return self._size_x >= position.x > 0 and self._size_y >= position.y > 0
 
     def place_object(self, object_id: UUID, position: 'Position'):
-        '''
+        """
         Add a new object on the map in the specified position.
-        '''
+        """
         if not self.is_valid_position(position):
             raise OutOfMapError(f'Position {position} is out of map bounds')
 
         self.remove_object(object_id)
-        self.__map[position].append(object_id)
-        self.__reversed_map[object_id] = position
+        self._map[position].append(object_id)
+        self._reversed_map[object_id] = position
 
     def place_object_in_random_position(self, object_id: UUID):
-        '''
+        """
         Add a new object on the map in random position.
-        '''
+        """
         position = Position(
             x=random.randint(1, self.size_x),
             y=random.randint(1, self.size_y),
@@ -150,10 +150,10 @@ class Map:
         self.place_object(object_id, position)
 
     def remove_object(self, object_id: UUID):
-        '''
+        """
         Remove object from the map.
-        '''
+        """
         object_position = self.find_object(object_id)
         if object_position:
-            self.__reversed_map.pop(object_id)
-            self.__map[object_position].remove(object_id)
+            self._reversed_map.pop(object_id)
+            self._map[object_position].remove(object_id)

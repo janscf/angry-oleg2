@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
-from typing import Iterable, TYPE_CHECKING
+from typing import Iterable, TYPE_CHECKING, Dict, Type, Callable
 
 from game.exceptions import MissingComponentError
 
 if TYPE_CHECKING:
     from game.components import ComponentType, ComponentState
     from game.context import GameContext
-    from game.messages import Message
+    from game.events import Event
     from game.objects import GameObject
 
 
@@ -23,11 +23,17 @@ class Component(ABC):
         pass
 
     @abstractmethod
-    def get_state(self, context: 'GameContext') -> 'ComponentState':
+    def get_state(self) -> 'ComponentState':
         pass
 
-    def process_message(self, message: 'Message', context: 'GameContext'):
-        pass
+    def process_event(self, event: 'Event', context: 'GameContext'):
+        handler = self._event_handlers.get(type(event))
+        if handler:
+            handler(event, context)
+
+    @property
+    def _event_handlers(self) -> Dict[Type, Callable]:
+        return {}
 
     def _probe(self):
         for component_type in self.dependencies:
