@@ -34,7 +34,7 @@ class GameState:
 class Game:
     def __init__(
         self,
-        context_provider: ContextProvider,
+        context_provider: 'ContextProvider',
         player_spawner: Optional['Spawner'] = None,
     ):
         self._started_at: Optional[datetime] = None
