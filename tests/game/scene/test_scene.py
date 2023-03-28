@@ -1,5 +1,4 @@
-from angry_oleg.assets import Vacuum
-from game.objects import ObjectType
+from angry_oleg.assets.objects.vacuum import Vacuum
 from game.scenes import Scene
 
 
@@ -12,7 +11,7 @@ def test_add_object():
 
     # Assert
     assert scene.get_all_objects() == [vacuum]
-    assert scene.get_objects_by_type(ObjectType.Vacuum) == [vacuum]
+    assert scene.get_objects_by_tag(vacuum.tag) == [vacuum]
 
 
 def test_add_object_twice():
@@ -25,4 +24,4 @@ def test_add_object_twice():
 
     # Assert
     assert scene.get_all_objects() == [vacuum]
-    assert scene.get_objects_by_type(ObjectType.Vacuum) == [vacuum]
+    assert scene.get_objects_by_tag(vacuum.tag) == [vacuum]

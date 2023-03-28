@@ -1,7 +1,8 @@
 import pytest
 
 from math import sqrt
-from angry_oleg.assets import Vacuum
+
+from angry_oleg.assets.objects.vacuum import Vacuum
 from game.exceptions import InvalidMapSizeError
 from game.scenes.map import Direction, Map, Position
 
